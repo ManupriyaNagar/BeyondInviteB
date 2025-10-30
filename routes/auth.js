@@ -53,4 +53,17 @@ router.post('/login', async (req, res) => {
   }
 });
 
+
+// GET ALL USERS (Protected route)
+router.get('/users', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT id, name, email FROM users');
+    res.json(rows);
+  } catch (err) {
+    console.error('Fetch users error:', err);
+    res.status(500).json({ error: 'Failed to fetch users' });
+  }
+});
+
+
 module.exports = router;

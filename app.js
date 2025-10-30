@@ -39,7 +39,11 @@ app.get("/", (req, res) => {
 // const templatesRouter = require('./routes/invitations');
 // app.use('/api/invitations', templatesRouter);
 
+const userRoutes = require("./routes/users");
+app.use("/api/users", userRoutes);
 
+const cors = require("cors");
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 // Start server
 const PORT = process.env.PORT || 5001;
