@@ -12,10 +12,12 @@ import templatesRoutes from "./routes/templates.js";
 import ordersRoutes from "./routes/orders.js";
 import uploadRoutes from "./routes/uploads.js";
 import wishlistRoutes from './routes/wishlist.js';
+import userRoutes from "./routes/users.js";
+// const userRoutes = require("./routes/users");
+
 
 
 const app = express();
-
 // Middlewares
 app.use(cors());
 app.use(bodyParser.json());
@@ -28,6 +30,7 @@ app.use("/api/templates", templatesRoutes);
 app.use("/api/orders", ordersRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use('/api/wishlist', wishlistRoutes);
+app.use("/api/users", userRoutes);
 
 // Serve static uploads folder
 app.use("/uploads", express.static("uploads"));
@@ -39,11 +42,10 @@ app.get("/", (req, res) => {
 // const templatesRouter = require('./routes/invitations');
 // app.use('/api/invitations', templatesRouter);
 
-const userRoutes = require("./routes/users");
-app.use("/api/users", userRoutes);
 
-const cors = require("cors");
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+
+// const cors = require("cors");
+// app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 // Start server
 const PORT = process.env.PORT || 5001;
