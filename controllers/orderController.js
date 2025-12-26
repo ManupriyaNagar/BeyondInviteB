@@ -1,5 +1,5 @@
 // controllers/orderController.js
-const pool = require('../db');
+import pool from '../db.js';
 
 // Get all orders
 const getAllOrders = async (req, res) => {
@@ -49,11 +49,11 @@ const getOrderById = async (req, res) => {
       FROM orders 
       WHERE id = ?
     `, [id]);
-    
+
     if (rows.length === 0) {
       return res.status(404).json({ error: 'Order not found' });
     }
-    
+
     res.json(rows[0]);
   } catch (err) {
     console.error('Error fetching order:', err);
@@ -76,8 +76,8 @@ const createOrder = async (req, res) => {
 
   // Validate required fields
   if (!customer || !email || !type || !amount) {
-    return res.status(400).json({ 
-      error: 'Customer name, email, type, and amount are required' 
+    return res.status(400).json({
+      error: 'Customer name, email, type, and amount are required'
     });
   }
 
@@ -188,14 +188,14 @@ const updateOrder = async (req, res) => {
 // Delete order
 const deleteOrder = async (req, res) => {
   const { id } = req.params;
-  
+
   try {
     const [result] = await pool.query('DELETE FROM orders WHERE id = ?', [id]);
-    
+
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: 'Order not found' });
     }
-    
+
     res.json({ message: 'Order deleted successfully' });
   } catch (err) {
     console.error('Error deleting order:', err);
@@ -224,7 +224,7 @@ const getOrderStats = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   getAllOrders,
   getOrderById,
   createOrder,

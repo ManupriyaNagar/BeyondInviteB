@@ -1,7 +1,8 @@
 // routes/wishlist.js
-const express = require('express');
+import express from 'express';
+import pool from '../db.js';
+
 const router = express.Router();
-const pool = require('../db');
 
 
 
@@ -41,4 +42,4 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

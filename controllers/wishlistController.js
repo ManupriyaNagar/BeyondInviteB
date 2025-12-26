@@ -1,4 +1,4 @@
-const pool = require('../db');
+import pool from '../db.js';
 
 // Add to wishlist
 const addToWishlist = async (req, res) => {
@@ -41,4 +41,4 @@ const getWishlist = async (req, res) => {
   }
 };
 
-module.exports = { addToWishlist, getWishlist };
+export { addToWishlist, getWishlist };
