@@ -1,7 +1,8 @@
 // routes/invitations.js
-const express = require('express');
+import express from 'express';
+import pool from '../db.js';
+
 const router = express.Router();
-const pool = require('../db');
 
 // Get all invitations
 router.get('/', async (req, res) => {
@@ -84,4 +85,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

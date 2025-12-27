@@ -1,9 +1,10 @@
 // routes/auth.js
-const express = require('express');
+import express from 'express';
+import pool from '../db.js';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
 const router = express.Router();
-const pool = require('../db');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 // REGISTER
 router.post('/register', async (req, res) => {
@@ -66,4 +67,4 @@ router.get('/users', async (req, res) => {
 });
 
 
-module.exports = router;
+export default router;

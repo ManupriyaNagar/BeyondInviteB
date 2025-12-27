@@ -1,14 +1,15 @@
 // routes/orders.js
-const express = require('express');
-const router = express.Router();
-const {
+import express from 'express';
+import {
     getAllOrders,
     getOrderById,
     createOrder,
     updateOrder,
     deleteOrder,
     getOrderStats
-} = require('../controllers/orderController');
+} from '../controllers/orderController.js';
+
+const router = express.Router();
 
 // GET /api/orders - Get all orders
 router.get('/', getAllOrders);
@@ -28,4 +29,4 @@ router.put('/:id', updateOrder);
 // DELETE /api/orders/:id - Delete order
 router.delete('/:id', deleteOrder);
 
-module.exports = router;
+export default router;

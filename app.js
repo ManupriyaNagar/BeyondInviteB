@@ -49,4 +49,47 @@ app.get("/", (req, res) => {
 
 // Start server
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Test database connection before starting server
+import pool from './db.js';
+
+async function startServer() {
+  // Skip DB check if SKIP_DB_CHECK is set
+  if (process.env.SKIP_DB_CHECK === 'true') {
+    console.log('⚠️  Skipping database connection check (SKIP_DB_CHECK=true)');
+    app.listen(PORT, () => {
+      console.log(`✓ Server running on port ${PORT}`);
+      console.log(`⚠️  Database connection not verified`);
+    });
+    return;
+  }
+
+  try {
+    // Test database connection
+    console.log('Testing database connection...');
+    const connection = await pool.getConnection();
+    await connection.ping();
+    connection.release();
+    console.log('✓ Database connected successfully');
+
+    // Start the server
+    app.listen(PORT, () => {
+      console.log(`✓ Server running on port ${PORT}`);
+      console.log(`✓ Environment: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`✓ Database: ${process.env.DATABASE_URL ? 'Cloud (DATABASE_URL)' : 'Local'}`);
+    });
+  } catch (err) {
+    console.error('✗ Failed to connect to database:', err.message);
+    console.error('Error code:', err.code);
+    console.error('\nPlease check your database configuration and ensure:');
+    console.error('1. Database server is running');
+    console.error('2. DATABASE_URL or DB_* environment variables are set correctly');
+    console.error('3. Database credentials are valid');
+    console.error('4. Network allows connection to database host');
+    console.error('\n💡 Tip: Set SKIP_DB_CHECK=true to start server without DB connection');
+    process.exit(1);
+  }
+}
+
+startServer();
+
