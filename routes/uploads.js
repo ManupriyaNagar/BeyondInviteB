@@ -10,7 +10,13 @@ const upload = multer({ storage });
 
 router.post("/", upload.single("image"), (req, res) => {
   if (!req.file) return res.status(400).json({ error: "No file uploaded" });
-  res.json({ imageUrl: `http://localhost:5001/uploads/${req.file.filename}` });
+
+  // Use the requester's host instead of hardcoding localhost
+  const protocol = req.protocol;
+  const host = req.get('host');
+  const imageUrl = `${protocol}://${host}/uploads/${req.file.filename}`;
+
+  res.json({ imageUrl });
 });
 
 export default router;
